@@ -287,62 +287,81 @@ export default function VKnow() {
     <div style={{ display:"flex", height:"100vh", background:T.bg, fontFamily:"'Inter',system-ui,sans-serif", color:T.text, overflow:"hidden" }}>
       {toast && <Toast msg={toast.msg} color={toast.color} />}
 
-      {/* -- SIDEBAR -- */}
-      <aside style={{ width: sideOpen ? 240 : 64, background:T.navy, display:"flex", flexDirection:"column", transition:"width 0.2s", overflow:"hidden", flexShrink:0, boxShadow:"2px 0 8px rgba(0,0,0,0.15)" }}>
+      {/* -- OVERLAY (mobile) -- */}
+      {sideOpen && (
+        <div onClick={() => setSideOpen(false)} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.5)", zIndex:40, display: typeof window !== 'undefined' && window.innerWidth < 768 ? "block" : "none" }}/>
+      )}
 
+      {/* -- SIDEBAR -- */}
+      <aside style={{
+        position: "fixed",
+        top: 0, left: 0,
+        height: "100vh",
+        width: sideOpen ? 240 : 0,
+        background: T.navy,
+        display: "flex",
+        flexDirection: "column",
+        transition: "width 0.25s ease",
+        overflow: "hidden",
+        flexShrink: 0,
+        boxShadow: sideOpen ? "4px 0 16px rgba(0,0,0,0.2)" : "none",
+        zIndex: 50,
+      }}>
         {/* Logo area */}
-        <div style={{ padding:"20px 16px 16px", borderBottom:`1px solid ${T.navyLight}` }}>
+        <div style={{ padding:"20px 16px 16px", borderBottom:`1px solid ${T.navyLight}`, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
             <LPBLogo size={36} />
-            {sideOpen && (
-              <div>
-                <div style={{ fontSize:14, fontWeight:800, color:T.white, letterSpacing:0.5 }}>V-KNOW</div>
-                <div style={{ fontSize:9, color:T.gold, letterSpacing:1.5, textTransform:"uppercase", marginTop:1 }}>LPB Pama Bessai Berinta</div>
-              </div>
-            )}
+            <div>
+              <div style={{ fontSize:14, fontWeight:800, color:T.white, letterSpacing:0.5, whiteSpace:"nowrap" }}>V-KNOW</div>
+              <div style={{ fontSize:9, color:T.gold, letterSpacing:1.5, textTransform:"uppercase", marginTop:1, whiteSpace:"nowrap" }}>LPB Pama Bessai Berinta</div>
+            </div>
           </div>
+          {/* Close button */}
+          <button onClick={() => setSideOpen(false)} style={{ background:"transparent", border:"none", color:"#94A3B8", cursor:"pointer", fontSize:18, fontWeight:700, lineHeight:1, padding:4, flexShrink:0 }}>x</button>
         </div>
 
         {/* Gold accent line */}
         <div style={{ height:2, background:T.gold, flexShrink:0 }}/>
 
         {/* Nav */}
-        <nav style={{ flex:1, padding:"12px 8px" }}>
+        <nav style={{ flex:1, padding:"12px 8px", overflowY:"auto" }}>
           {NAV.map(n => {
             const active = page === n.id;
             return (
-              <button key={n.id} onClick={() => setPage(n.id)} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 12px", borderRadius:6, border:"none", cursor:"pointer", marginBottom:2, background: active ? T.gold : "transparent", color: active ? T.navy : "#94A3B8", fontSize:12, fontWeight: active ? 700 : 400, textAlign:"left", transition:"all 0.15s", whiteSpace:"nowrap", overflow:"hidden" }}>
-                <div style={{ width:28, height:28, borderRadius:5, background: active ? T.navy : T.navyLight, display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, fontWeight:800, color: active ? T.gold : "#94A3B8", letterSpacing:0.5, flexShrink:0 }}>{n.short}</div>
-                {sideOpen && <span>{n.label}</span>}
+              <button key={n.id} onClick={() => { setPage(n.id); setSideOpen(false); }} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"12px 12px", borderRadius:6, border:"none", cursor:"pointer", marginBottom:4, background: active ? T.gold : "transparent", color: active ? T.navy : "#94A3B8", fontSize:13, fontWeight: active ? 700 : 400, textAlign:"left", transition:"all 0.15s", whiteSpace:"nowrap" }}>
+                <div style={{ width:30, height:30, borderRadius:5, background: active ? T.navy : T.navyLight, display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, fontWeight:800, color: active ? T.gold : "#94A3B8", letterSpacing:0.5, flexShrink:0 }}>{n.short}</div>
+                <span>{n.label}</span>
               </button>
             );
           })}
         </nav>
 
         {/* Mini logo bar */}
-        {sideOpen && (
-          <div style={{ padding:"0 12px 12px" }}>
-            <LogoBar compact />
-          </div>
-        )}
-
-        <button onClick={() => setSideOpen(!sideOpen)} style={{ margin:"0 8px 12px", padding:"8px", borderRadius:6, border:`1px solid ${T.navyLight}`, background:"transparent", color:"#94A3B8", cursor:"pointer", fontSize:10, letterSpacing:0.5 }}>
-          {sideOpen ? "Tutup" : ">>"}
-        </button>
+        <div style={{ padding:"0 12px 16px" }}>
+          <LogoBar compact />
+        </div>
       </aside>
 
       {/* -- MAIN -- */}
-      <main style={{ flex:1, overflow:"auto", display:"flex", flexDirection:"column" }}>
+      <main style={{ flex:1, overflow:"auto", display:"flex", flexDirection:"column", marginLeft:0 }}>
 
         {/* Topbar */}
-        <header style={{ padding:"0 28px", height:56, borderBottom:`1px solid ${T.border}`, background:T.white, display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0, boxShadow:"0 1px 3px rgba(0,0,0,0.06)" }}>
-          <div>
-            <div style={{ fontSize:13, fontWeight:700, color:T.text }}>{NAV.find(n => n.id === page)?.label}</div>
-            <div style={{ fontSize:10, color:T.textMute, letterSpacing:0.5 }}>LPB Pama Bessai Berinta</div>
-          </div>
+        <header style={{ padding:"0 16px", height:56, borderBottom:`1px solid ${T.border}`, background:T.white, display:"flex", alignItems:"center", justifyContent:"space-between", flexShrink:0, boxShadow:"0 1px 3px rgba(0,0,0,0.06)", position:"sticky", top:0, zIndex:30 }}>
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+            {/* Hamburger button */}
+            <button onClick={() => setSideOpen(!sideOpen)} style={{ background:"transparent", border:`1px solid ${T.border}`, borderRadius:6, cursor:"pointer", padding:"6px 8px", display:"flex", flexDirection:"column", gap:4, alignItems:"center", justifyContent:"center" }}>
+              <div style={{ width:18, height:2, background:T.navy, borderRadius:1 }}/>
+              <div style={{ width:18, height:2, background:T.navy, borderRadius:1 }}/>
+              <div style={{ width:18, height:2, background:T.navy, borderRadius:1 }}/>
+            </button>
+            <div>
+              <div style={{ fontSize:13, fontWeight:700, color:T.text }}>{NAV.find(n => n.id === page)?.label}</div>
+              <div style={{ fontSize:10, color:T.textMute, letterSpacing:0.5 }}>LPB Pama Bessai Berinta</div>
+            </div>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
             <LogoBar />
-            <div style={{ display:"flex", alignItems:"center", gap:6, padding:"5px 12px", borderRadius:4, background:T.redBg, border:`1px solid ${T.red}` }}>
+            <div style={{ display:"flex", alignItems:"center", gap:6, padding:"5px 10px", borderRadius:4, background:T.redBg, border:`1px solid ${T.red}` }}>
               <div style={{ width:7, height:7, borderRadius:"50%", background:T.red }}/>
               <span style={{ fontSize:11, fontWeight:700, color:T.red, letterSpacing:1 }}>LIVE</span>
             </div>
@@ -353,7 +372,7 @@ export default function VKnow() {
         <div style={{ height:3, background:`linear-gradient(90deg, ${T.gold}, transparent)`, flexShrink:0 }}/>
 
         {/* Content */}
-        <div style={{ flex:1, padding:"28px 32px", maxWidth:1100, width:"100%", boxSizing:"border-box" }}>
+        <div style={{ flex:1, padding:"24px 16px", maxWidth:1100, width:"100%", boxSizing:"border-box" }}>
           {pages[page]}
         </div>
       </main>
