@@ -673,7 +673,7 @@ function SubmissionPage({ step, setStep, data, setData, showToast, onSubmitSucce
 
     try {
       await supaFetch("POST", SUPA_TABLE, { id:newEntry.id, submit_at:submitAt, judul:newEntry.judul, pilar:newEntry.pilar, tanggal:newEntry.tanggal, lokasi:newEntry.lokasi, fasilitator:newEntry.fasilitator, status:"review", catatan:"", link_video:"", folder_url:"", durasi:"-" });
-      const params = new URLSearchParams({ action:"submit", judul:newEntry.judul||"", pilar:newEntry.pilar||"", tanggal:newEntry.tanggal||"", lokasi:newEntry.lokasi||"", fasilitator:newEntry.fasilitator||"" });
+      const params = new URLSearchParams({ action:"submit", id:newEntry.id, judul:newEntry.judul||"", pilar:newEntry.pilar||"", tanggal:newEntry.tanggal||"", lokasi:newEntry.lokasi||"", fasilitator:newEntry.fasilitator||"", submitAt:submitAt });
       fetch(APPS_SCRIPT_URL+"?"+params.toString(), { method:"GET", mode:"no-cors" }).catch(()=>{});
       if (onSubmitSuccess) onSubmitSuccess(newEntry);
       setResult(newEntry); setDone(true);
