@@ -39,8 +39,8 @@ const btn   = (bg, color, border) => ({ padding:"9px 20px", borderRadius:6, bord
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNGNaA5xbz6ev5-Npy8XqTGaZLLsDaPVV5yNG4UhOgBCmelJzCZl2Vkc0nRSWsLl-X0Q/exec";
 
 // --- SUPABASE CONFIG ----------------------------------------------
-const SUPA_URL   = "https://jperdcyynzfugcyommzl.supabase.co";
-const SUPA_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZXJkY3l5bnpmdWdjeW9tbXpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwNjk5NTMsImV4cCI6MjA5ODY0NTk1M30.zRWKR2pxobyQQ5nKh6d5v1rO6l6Nc0FKq9Ialp-NUfQ";
+const SUPA_URL   = "https://gzmbtbpodsxubzjdmigv.supabase.co";
+const SUPA_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6bWJ0YnBvZHN4dWJ6amRtaWd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NzY2MTIsImV4cCI6MjA5ODI1MjYxMn0.JJ-SzhQrd4_m_uw23xC3qSrufVnsgY1fH9iro6n8q3Q";
 const SUPA_TABLE = "arsip_vlog";
 
 // Helper: fetch ke Supabase
